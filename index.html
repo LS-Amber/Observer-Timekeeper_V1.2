@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08121f" />
+  <title>高维文明观测员 v1.2</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-theme="nebula">
+  <div class="sticker sticker-a">🪐</div>
+  <div class="sticker sticker-b">🔭</div>
+  <div class="sticker sticker-c">✨</div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="badge">高维空间文明观测站 v1.2</span>
+        <h1>高维文明观测员</h1>
+        <p class="subtle">
+          记录学习 / 工作时长，把现实时间投射成一颗星球与文明的演化史。
+        </p>
+      </div>
+      <div class="header-actions desktop-only">
+        <button class="btn btn-ghost nav-button" data-nav="main">主控台</button>
+        <button class="btn btn-ghost nav-button" data-nav="report">观测站</button>
+        <button class="btn btn-ghost nav-button" data-nav="achievements">成就</button>
+        <button class="btn btn-ghost nav-button" data-nav="settings">设置</button>
+      </div>
+    </header>
+
+    <!-- ─── 顶部统计 ─── -->
+    <section class="grid-secondary">
+      <div class="card stat">
+        <span>现实时间</span>
+        <strong id="nowTime">--</strong>
+      </div>
+      <div class="card stat">
+        <span>累计总观测时长</span>
+        <strong id="lifetimeHours">0.00 小时</strong>
+      </div>
+      <div class="card stat">
+        <span>当前星球累计时长</span>
+        <strong id="worldHours">0.00 小时</strong>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ -->
+    <!--           初始设定页               -->
+    <!-- ═══════════════════════════════════ -->
+    <section id="setupView" class="card hidden">
+      <div class="section-head">
+        <div>
+          <h2>初始化观测对象</h2>
+          <p class="subtle">选择行星类型、恒星系、生命倾向与默认观测周期，建立你的观测档案。</p>
+        </div>
+        <span class="badge">首次 / 重开</span>
+      </div>
+
+      <p id="setupNotice" class="notice hidden"></p>
+
+      <div class="setup-section">
+        <h3>🪐 行星类型</h3>
+        <div class="choice-grid choice-grid-7">
+          <label class="choice-card">
+            <input type="radio" name="planetType" value="rock" checked />
+            <div class="choice-body">
+              <div class="choice-title">🪨 岩石行星</div>
+              <p>类地世界，均衡稳定，推荐新手。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="planetType" value="ocean" />
+            <div class="choice-body">
+              <div class="choice-title">🌊 海洋行星</div>
+              <p>海洋覆盖率极高，生命诞生较早。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="planetType" value="desert" />
+            <div class="choice-body">
+              <div class="choice-title">🏜️ 沙漠行星</div>
+              <p>水资源稀缺，生命窗口较窄但顽强。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="planetType" value="ice" />
+            <div class="choice-body">
+              <div class="choice-title">🧊 冰封行星</div>
+              <p>全球低温冰盖，需温室效应开窗口。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="planetType" value="volcanic" />
+            <div class="choice-body">
+              <div class="choice-title">🌋 火山行星</div>
+              <p>地质极活跃，前期危险后期丰富。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="planetType" value="swamp" />
+            <div class="choice-body">
+              <div class="choice-title">☁️ 沼泽温室</div>
+              <p>大气厚重湿热，利于复杂化学。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="planetType" value="moon" />
+            <div class="choice-body">
+              <div class="choice-title">🌑 巨行星卫星</div>
+              <p>潮汐强，辐射变化大，科幻感强。</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="setup-section">
+        <h3>⭐ 恒星系类型</h3>
+        <div class="choice-grid choice-grid-5">
+          <label class="choice-card">
+            <input type="radio" name="starSystem" value="red_dwarf" />
+            <div class="choice-body">
+              <div class="choice-title">🔴 红矮星系</div>
+              <p>寿命长温和，但耀斑频繁。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="starSystem" value="sun_like" checked />
+            <div class="choice-body">
+              <div class="choice-title">☀️ 类太阳单星</div>
+              <p>最均衡稳定，推荐新手。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="starSystem" value="binary" />
+            <div class="choice-body">
+              <div class="choice-title">⚛️ 双星系统</div>
+              <p>季节复杂，演化戏剧化。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="starSystem" value="blue_white" />
+            <div class="choice-body">
+              <div class="choice-title">💠 蓝白年轻星</div>
+              <p>能量充沛，高风险高波动。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="starSystem" value="old_orange" />
+            <div class="choice-body">
+              <div class="choice-title">🟠 老年橙红星</div>
+              <p>光照柔和，偏沉浸叙事。</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="setup-section">
+        <h3>🧬 生命倾向</h3>
+        <div class="choice-grid choice-grid-4">
+          <label class="choice-card">
+            <input type="radio" name="lifeBias" value="carbon" checked />
+            <div class="choice-body">
+              <div class="choice-title">🧬 碳基倾向</div>
+              <p>默认路线，事件文本最丰富。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="lifeBias" value="silicon" />
+            <div class="choice-body">
+              <div class="choice-title">💎 硅基倾向</div>
+              <p>高温、矿物事件加权更高。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="lifeBias" value="oceanic" />
+            <div class="choice-body">
+              <div class="choice-title">🐚 海洋倾向</div>
+              <p>生命从深海开始，登陆更晚。</p>
+            </div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="lifeBias" value="extremophile" />
+            <div class="choice-body">
+              <div class="choice-title">☢️ 极端嗜性</div>
+              <p>极端环境下更容易诞生生命。</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- v1.2: 观测周期选择 -->
+      <div class="setup-section">
+        <h3>⏱️ 单次观测周期</h3>
+        <p class="subtle" style="margin-bottom:8px;">选择每轮观测的现实时长。未达到该时长前，无法获得新的观测结果。</p>
+        <div class="choice-grid choice-grid-10">
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="15" />
+            <div class="choice-body"><div class="choice-title">15 分钟</div><p>极短观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="30" />
+            <div class="choice-body"><div class="choice-title">30 分钟</div><p>短期观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="45" checked />
+            <div class="choice-body"><div class="choice-title">45 分钟</div><p>常规观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="60" />
+            <div class="choice-body"><div class="choice-title">1 小时</div><p>标准观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="90" />
+            <div class="choice-body"><div class="choice-title">1.5 小时</div><p>深度观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="120" />
+            <div class="choice-body"><div class="choice-title">2 小时</div><p>长程观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="180" />
+            <div class="choice-body"><div class="choice-title">3 小时</div><p>马拉松观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="240" />
+            <div class="choice-body"><div class="choice-title">4 小时</div><p>长程专注</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="300" />
+            <div class="choice-body"><div class="choice-title">5 小时</div><p>超长观测</p></div>
+          </label>
+          <label class="choice-card">
+            <input type="radio" name="obsDuration" value="360" />
+            <div class="choice-body"><div class="choice-title">6 小时</div><p>极限观测</p></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="setup-footer">
+        <button class="btn btn-primary" id="createWorldButton">建立观测档案</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ -->
+    <!--             主控台                 -->
+    <!-- ═══════════════════════════════════ -->
+    <section id="mainView" class="grid-main hidden">
+      <div class="card main-left">
+        <div class="section-head">
+          <div>
+            <h2>主控台</h2>
+            <p class="subtle">开始 / 暂停计时，累积观测时长。</p>
+          </div>
+          <span class="badge" id="statusBadge">待机中</span>
+        </div>
+
+        <!-- v1.2: 现实锚点信息栏 -->
+        <div class="obs-info-bar">
+          <div class="obs-info-item">
+            <span class="label">📅 观测开始时间</span>
+            <strong id="obsStartDate">-</strong>
+          </div>
+          <div class="obs-info-item">
+            <span class="label">⏳ 真实累计观测</span>
+            <strong id="obsRealTotal">-</strong>
+          </div>
+          <div class="obs-info-item">
+            <span class="label">🎯 本轮目标时长</span>
+            <strong id="obsCycleTarget">-</strong>
+          </div>
+          <div class="obs-info-item">
+            <span class="label">🔄 当前轮次状态</span>
+            <strong id="obsCycleStatus">-</strong>
+          </div>
+        </div>
+
+        <div class="meter-row">
+          <div>
+            <span class="label">待返回观测站结算</span>
+            <strong id="pendingHours">0 分钟</strong>
+          </div>
+          <div>
+            <span class="label">生命窗口</span>
+            <strong id="lifeWindowStatus">🔴 未开启</strong>
+          </div>
+        </div>
+
+        <!-- v1.2: 观测周期进度 -->
+        <div class="cycle-status" id="cycleStatusPanel">
+          <div id="cycleStatusText">观测尚未开始，这颗星球仍被冻结在初始参考帧中。</div>
+          <div class="cycle-progress"><span id="cycleProgressBar" style="width:0%"></span></div>
+        </div>
+
+        <div class="timer-panel">
+          <div class="timer-number" id="sessionTimer">00:00:00</div>
+          <p class="subtle" id="timerHint">观测尚未开始</p>
+          <div class="button-row">
+            <button class="btn btn-primary" id="startButton">▶ 开始观测</button>
+            <button class="btn btn-ghost" id="pauseButton">⏸ 暂停观测</button>
+            <button class="btn btn-secondary" id="stationButton">🔭 返回观测站</button>
+          </div>
+        </div>
+
+        <div class="progress-block">
+          <div class="section-head">
+            <div>
+              <h3 id="stageName">星云凝聚</h3>
+              <p class="subtle" id="stageDescription">尘埃盘汇聚中。</p>
+            </div>
+          </div>
+          <div class="progress">
+            <span id="stageProgressBar"></span>
+          </div>
+          <p class="subtle" id="stageProgressText"></p>
+        </div>
+
+        <!-- 自然参数面板 -->
+        <div class="params-section">
+          <h3>🌍 自然参数</h3>
+          <div class="params-grid" id="paramsPanel"></div>
+        </div>
+
+        <!-- 文明参数面板 -->
+        <div class="params-section">
+          <h3>🏛️ 文明参数</h3>
+          <div class="params-grid" id="civParamsPanel"></div>
+        </div>
+      </div>
+
+      <div class="side-stack">
+        <!-- 世界图案 (v1.2: 大图升级) -->
+        <div class="card glyph-card">
+          <div id="obsYearLabel" style="font-size:0.85rem;color:var(--muted);margin-bottom:6px;">
+            观测开始：-
+          </div>
+          <h3 style="margin-bottom:8px;">观测对象状态</h3>
+          <div id="worldGlyphContainer" class="glyph-container"></div>
+          <div class="profile-grid">
+            <div class="profile-item">
+              <span class="label">行星类型</span>
+              <strong id="planetValue">-</strong>
+            </div>
+            <div class="profile-item">
+              <span class="label">恒星系</span>
+              <strong id="starValue">-</strong>
+            </div>
+            <div class="profile-item">
+              <span class="label">生命倾向</span>
+              <strong id="biasValue">-</strong>
+            </div>
+            <div class="profile-item">
+              <span class="label">观测员起点</span>
+              <strong id="observerSince">-</strong>
+            </div>
+            <div class="profile-item full-width">
+              <span class="label">当前状态</span>
+              <strong id="aliveState">-</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- v1.2: 成就快捷入口 -->
+        <div class="card">
+          <div class="section-head">
+            <h3>🏆 成就</h3>
+            <span class="badge" id="achCountBadge">0 / 0</span>
+          </div>
+          <div id="achRecentList"></div>
+          <button class="btn btn-ghost" style="width:100%;margin-top:10px;" onclick="showView('achievements')">查看全部成就</button>
+        </div>
+
+        <div class="card">
+          <h3>最近观测摘要</h3>
+          <div class="log-list" id="recentLog"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ -->
+    <!--           观测简报页               -->
+    <!-- ═══════════════════════════════════ -->
+    <section id="reportView" class="card hidden">
+      <div class="section-head">
+        <div>
+          <h2>观测简报</h2>
+          <p class="subtle" id="reportStageMeta"></p>
+        </div>
+        <span class="badge" id="reportTypeBadge">待命中</span>
+      </div>
+
+      <div class="report-layout">
+        <div class="report-glyph-area" id="reportGlyph"></div>
+        <div class="report-content-area">
+          <div class="report-hero">
+            <div class="report-icon" id="reportIcon">🔭</div>
+            <div>
+              <h3 id="reportTitle">暂无新简报</h3>
+              <p class="subtle" id="reportMeta"></p>
+            </div>
+          </div>
+          <div class="report-body" id="reportText">观测站仍在监听星海。</div>
+          <!-- v1.2: 成就解锁区 -->
+          <div class="report-achievements hidden" id="reportAchievements">
+            <h4>🏆 本轮新解锁成就</h4>
+            <div id="reportAchList"></div>
+          </div>
+          <div class="option-list" id="reportOptions"></div>
+          <div class="button-row" style="margin-top:16px;">
+            <button class="btn btn-primary" id="reportContinueButton">返回主控台</button>
+            <button class="btn btn-danger hidden" id="reportRestartButton">重新选择观测对象</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ -->
+    <!--           成就墙页面 (v1.2)         -->
+    <!-- ═══════════════════════════════════ -->
+    <section id="achievementsView" class="card hidden">
+      <div class="section-head">
+        <div>
+          <h2>🏆 成就墙</h2>
+          <p class="subtle">收集你的观测纪念与分歧路线。</p>
+        </div>
+        <span class="badge" id="achWallCount">0 / 0</span>
+      </div>
+      <div class="achievement-wall" id="achievementWall"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════ -->
+    <!--              设置页                -->
+    <!-- ═══════════════════════════════════ -->
+    <section id="settingsView" class="card hidden">
+      <div class="section-head">
+        <div>
+          <h2>设置</h2>
+          <p class="subtle">数据保存在浏览器本地。</p>
+        </div>
+      </div>
+      <div class="settings-grid">
+        <div class="setting-item">
+          <h3>界面主题</h3>
+          <p class="subtle" id="themeLabel">当前主题：深空观测站</p>
+          <button class="btn btn-ghost" id="themeToggleButton">切换主题</button>
+        </div>
+        <div class="setting-item">
+          <h3>修改观测周期</h3>
+          <p class="subtle">调整下一轮观测的目标时长。</p>
+          <select id="changeDurationSelect" style="width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text);font-size:0.9rem;margin-bottom:8px;">
+            <option value="15">15 分钟</option>
+            <option value="30">30 分钟</option>
+            <option value="45">45 分钟</option>
+            <option value="60">1 小时</option>
+            <option value="90">1.5 小时</option>
+            <option value="120">2 小时</option>
+            <option value="180">3 小时</option>
+            <option value="240">4 小时</option>
+            <option value="300">5 小时</option>
+            <option value="360">6 小时</option>
+          </select>
+          <button class="btn btn-ghost" id="changeDurationButton">应用</button>
+        </div>
+        <div class="setting-item">
+          <h3>重置当前星球</h3>
+          <p class="subtle">仅清空当前星球，保留累计总时长。</p>
+          <button class="btn btn-danger" id="resetWorldButton">重新选择星球</button>
+        </div>
+        <div class="setting-item">
+          <h3>清空全部数据</h3>
+          <p class="subtle">删除本地全部记录。</p>
+          <button class="btn btn-danger" id="clearAllButton">彻底清空</button>
+        </div>
+      </div>
+    </section>
+
+    <nav class="mobile-nav">
+      <button class="btn btn-ghost nav-button" data-nav="main">主控台</button>
+      <button class="btn btn-ghost nav-button" data-nav="report">观测站</button>
+      <button class="btn btn-ghost nav-button" data-nav="achievements">成就</button>
+      <button class="btn btn-ghost nav-button" data-nav="settings">设置</button>
+    </nav>
+  </div>
+
+  <!-- Achievement Detail Modal -->
+  <div id="achModal" class="modal-overlay hidden" onclick="closeAchModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeAchModal()">&times;</button>
+      <div class="modal-ach-illustration" id="achModalIllust"></div>
+      <h3 id="achModalTitle">-</h3>
+      <div class="modal-meta" id="achModalMeta"></div>
+      <div class="modal-desc" id="achModalDesc">-</div>
+      <div class="modal-condition" id="achModalCondition">-</div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
